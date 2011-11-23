@@ -1,6 +1,7 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agence:
- * UKRINFORM
+ * UKRINFORM 2011
+ * version 0.2
  */
 
 package textsplit;
@@ -51,6 +52,9 @@ public class TextSplit {
         System.out.println("Начало работы!");
     }
     
+    /**
+     * Flushing stack to new split
+     */
     public static void FlushStack() {
         stringStack = new ArrayList();
         outApp.out.setText("");
