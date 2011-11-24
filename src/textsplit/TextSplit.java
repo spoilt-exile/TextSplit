@@ -1,7 +1,7 @@
 /**
- * TextSplit is a service software for Ukrainian National Information Agence:
+ * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version 0.2
+ * version 0.3
  */
 
 package textsplit;
@@ -17,7 +17,7 @@ public class TextSplit {
     /**
      * Maximum length of message
      */
-    public static int maxText = 15000;
+    public static int maxText = 15980;
     
     /**
      * System dependent line seporator
@@ -27,12 +27,17 @@ public class TextSplit {
     /**
      * Text separator example string
      */
-    public static String textSeparator = lineSeparator + lineSeparator + lineSeparator;
+    public static String textSeparator = lineSeparator + lineSeparator;
     
     /**
      * ArrayList for store splited string
      */
     public static ArrayList stringStack = new ArrayList();
+    
+    /**
+     * 
+     */
+    public static String[] stackPieces;
     
     /**
      * Input frame variable
@@ -64,17 +69,21 @@ public class TextSplit {
     }
     
     /**
-     * Split text method
+     * Split text method for EKOP messages
      */
-    public static void SplitText() {
+    public static void ekopSplit() {
         String input = inputApp.textField.getText();
         System.out.println("Получен текст:" + input.length());
         if (input.length() > maxText) {
-            String[] pieces = input.split("\n\n");
-            System.out.println("Количество 'кусков': " + pieces.length);
+            stackPieces = input.split(textSeparator);
+            System.out.println("Количество 'кусков': " + stackPieces.length);
             String rstr = "";
-            for (int cpiece = 0; cpiece < pieces.length; cpiece++) {
-                String cstr = pieces[cpiece];
+            for (int cpiece = 0; cpiece < stackPieces.length; cpiece++) {
+                ekopFindHeader(cpiece);
+                String cstr = stackPieces[cpiece];
+                if (cstr.isEmpty()) {
+                    continue;
+                }
                 System.out.println("'Кусок' номер " + cpiece);
                 if (rstr.length() + cstr.length() > maxText) {
                     if (!rstr.isEmpty()) {
@@ -97,7 +106,7 @@ public class TextSplit {
                         System.out.println("Сложение строк.");
                     }
                 }
-                if (cpiece == pieces.length - 1) {
+                if (cpiece == stackPieces.length - 1) {
                     stringStack.add(rstr);
                     System.out.println("Добавление остаточной строки.");
                 }
@@ -108,6 +117,19 @@ public class TextSplit {
             else {
                 outApp.showStack();
             }
+        }
+    }
+    
+    /**
+     * Find header in EKOP messages
+     * @param currentIndex 
+     */
+    public static void ekopFindHeader(Integer currentIndex) {
+        String currentStr = stackPieces[currentIndex];
+        String currentCopy = currentStr.toUpperCase();
+        if (currentStr.equals(currentCopy)) {
+            stackPieces[currentIndex + 1] = currentStr + textSeparator + stackPieces[currentIndex + 1];
+            stackPieces[currentIndex] = "";
         }
     }
 }

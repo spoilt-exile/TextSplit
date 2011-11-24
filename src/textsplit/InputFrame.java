@@ -85,7 +85,7 @@ public class InputFrame extends javax.swing.JFrame {
 
 private void splitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_splitButtonMouseClicked
     TextSplit.FlushStack();
-    TextSplit.SplitText();
+    TextSplit.ekopSplit();
 }//GEN-LAST:event_splitButtonMouseClicked
 
     private void eraseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eraseButtonMouseClicked
