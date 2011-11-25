@@ -39,6 +39,8 @@ public class OutputFrame extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jScrollPane1.setAutoscrolls(true);
+
         out.setEditable(false);
         jScrollPane1.setViewportView(out);
 
@@ -71,7 +73,7 @@ public class OutputFrame extends javax.swing.JDialog {
                         .addComponent(backwardButton)
                         .addGap(40, 40, 40)
                         .addComponent(stateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                         .addComponent(forwardButton)))
                 .addContainerGap())
         );
@@ -92,11 +94,15 @@ public class OutputFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
 private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonMouseClicked
-        this.moveStack(1);
+        if (this.forwardButton.isEnabled()) {
+            this.moveStack(1); 
+        }
 }//GEN-LAST:event_forwardButtonMouseClicked
 
     private void backwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backwardButtonMouseClicked
-        this.moveStack(0);
+        if (this.backwardButton.isEnabled()) {
+            this.moveStack(0);
+        }
     }//GEN-LAST:event_backwardButtonMouseClicked
 
     /**
@@ -170,26 +176,34 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
      * @param mode (0 - move backward, 1 - move forward)
      */
     private void moveStack (int mode) {
+        //Moving stack backward
         if (mode == 0) {
             this.currentStack--;
+            System.out.println("Сдвиг стека " + (currentStack + 2) + ">" + (currentStack + 1));
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
             this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
             this.out.setText(this.currentString);
+            //Disabling backward button if stack reaching end of range
             if (currentStack == 0) {
                 this.backwardButton.setEnabled(false);
             }
+            //Enabling forward button if disabled
             if (this.forwardButton.isEnabled() == false) {
                 this.forwardButton.setEnabled(true);
             }
         }
+        //Moving stack forward
         else {
             this.currentStack++;
+            System.out.println("Сдвиг стека " + currentStack + ">" + (currentStack + 1));
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
             this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
             this.out.setText(this.currentString);
+            //Disabling forward button if stack reaching end of range
             if (currentStack == TextSplit.stringStack.size() - 1) {
                 this.forwardButton.setEnabled(false);
             }
+            //Enabling backward button if disabled
             if (this.backwardButton.isEnabled() == false) {
                 this.backwardButton.setEnabled(true);
             }
