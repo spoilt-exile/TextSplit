@@ -1,7 +1,7 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version v0.4 alpha1
+ * version v0.4 alpha2
  * 
  * TODO: make service header in EKOP separation.
  * TODO: create other split modes.
@@ -203,5 +203,9 @@ public class TextSplit {
             stackPieces[currentIndex + 1] = currentStr + textSeparator + stackPieces[currentIndex + 1];
             stackPieces[currentIndex] = "";
         }
+    }
+    
+    public static void lineSplit() {
+        //TODO: write line separation code
     }
 }

@@ -34,6 +34,7 @@ public class InputFrame extends javax.swing.JFrame {
         textField = new javax.swing.JTextPane();
         splitButton = new javax.swing.JButton();
         eraseButton = new javax.swing.JButton();
+        splitMode = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Разделитель текста");
@@ -54,6 +55,8 @@ public class InputFrame extends javax.swing.JFrame {
             }
         });
 
+        splitMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ЕКОП", "Построчно (dev)" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -65,7 +68,9 @@ public class InputFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(splitButton)
                         .addGap(18, 18, 18)
-                        .addComponent(eraseButton)))
+                        .addComponent(eraseButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(splitMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -76,7 +81,8 @@ public class InputFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(splitButton)
-                    .addComponent(eraseButton))
+                    .addComponent(eraseButton)
+                    .addComponent(splitMode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -85,7 +91,13 @@ public class InputFrame extends javax.swing.JFrame {
 
 private void splitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_splitButtonMouseClicked
     TextSplit.FlushStack();
-    TextSplit.ekopSplit();
+    switch (this.splitMode.getSelectedIndex()) {
+        case 0:
+            TextSplit.ekopSplit();
+            break;
+        case 1:
+            System.out.println("Построчное разделение не готово.");
+    }
 }//GEN-LAST:event_splitButtonMouseClicked
 
     private void eraseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eraseButtonMouseClicked
@@ -131,6 +143,7 @@ private void splitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
     private javax.swing.JButton eraseButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton splitButton;
+    private javax.swing.JComboBox splitMode;
     public javax.swing.JTextPane textField;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,6 +31,8 @@
                       <Component id="splitButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="eraseButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="splitMode" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -46,6 +48,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="splitButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="eraseButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="splitMode" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -82,6 +85,16 @@
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="eraseButtonMouseClicked"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="splitMode">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="&#x415;&#x41a;&#x41e;&#x41f;"/>
+            <StringItem index="1" value="&#x41f;&#x43e;&#x441;&#x442;&#x440;&#x43e;&#x447;&#x43d;&#x43e; (dev)"/>
+          </StringArray>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
