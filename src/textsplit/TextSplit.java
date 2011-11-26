@@ -1,9 +1,8 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version 0.3r1
+ * version v0.4 alpha1
  * 
- * TODO: make new method for Case indepent header search.
  * TODO: make service header in EKOP separation.
  * TODO: create other split modes.
  * TODO: clipboard integretion (IMPORTANT!).
@@ -22,17 +21,17 @@ public class TextSplit {
     /**
      * Maximum length of message
      */
-    public static int maxText = 15980;
+    private static int maxText = 15980;
     
     /**
      * System dependent line seporator
      */
-    public static String lineSeparator = System.getProperty("line.separator");
+    private static String lineSeparator = System.getProperty("line.separator");
     
     /**
      * Text separator example string
      */
-    public static String textSeparator = lineSeparator + lineSeparator;
+    private static String textSeparator;
     
     /**
      * ArrayList for store splited string
@@ -40,20 +39,20 @@ public class TextSplit {
     public static ArrayList stringStack = new ArrayList();
     
     /**
-     * 
+     * Draft separation array
      */
-    public static String[] stackPieces;
+    private static String[] stackPieces;
     
     /**
      * Input frame variable
      */
-    public static InputFrame inputApp = new InputFrame();
+    private static InputFrame inputApp = new InputFrame();
     
     /**
      * Output frame variable
      */
-    public static OutputFrame outApp = new OutputFrame(inputApp, false);
-
+    public static OutputFrame outApp;
+    
     /**
      * @param args the command line arguments
      */
@@ -62,6 +61,9 @@ public class TextSplit {
         //Making main window visible
         inputApp.setVisible(true);
         
+        //Initializate output window
+        outApp = new OutputFrame(inputApp, false);
+
         //Debug output
         System.out.println("Начало работы!");
     }
@@ -87,6 +89,9 @@ public class TextSplit {
      */
     public static void ekopSplit() {
         
+        //Assign text separator
+        textSeparator = lineSeparator + lineSeparator;
+        
         //Get text from input windoiw
         String input = inputApp.textField.getText();
         System.out.println("Получен текст:" + input.length());
@@ -104,9 +109,11 @@ public class TextSplit {
             //Main cycle
             for (int cpiece = 0; cpiece < stackPieces.length; cpiece++) {
                 
-                //Call to ekopFindHeader method
-                ekopFindHeader(cpiece);
-                
+                if (cpiece < stackPieces.length - 1) {
+                    //Call to ekopFindHeader method
+                    ekopFindHeaderCI(cpiece);
+                }
+
                 //Extract string from draft separation array
                 String cstr = stackPieces[cpiece];
                 
@@ -174,10 +181,25 @@ public class TextSplit {
     /**
      * Find header in EKOP messages
      * @param currentIndex 
+     * @deprecated since v0.4 alpha1
      */
-    public static void ekopFindHeader(Integer currentIndex) {
+    private static void ekopFindHeader(Integer currentIndex) {
         String currentStr = stackPieces[currentIndex];
         if (currentStr.equals(currentStr.toUpperCase())) {
+            stackPieces[currentIndex + 1] = currentStr + textSeparator + stackPieces[currentIndex + 1];
+            stackPieces[currentIndex] = "";
+        }
+    }
+    
+    /**
+     * Find header in EKOP messages
+     * Case independent method!
+     * @param currentIndex 
+     */
+    private static void ekopFindHeaderCI(Integer currentIndex) {
+        String currentStr = stackPieces[currentIndex];
+        String[] currentWords = currentStr.split(" ");
+        if (currentWords.length < 20) {
             stackPieces[currentIndex + 1] = currentStr + textSeparator + stackPieces[currentIndex + 1];
             stackPieces[currentIndex] = "";
         }
