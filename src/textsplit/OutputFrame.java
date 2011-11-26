@@ -10,6 +10,8 @@
  */
 package textsplit;
 
+import java.awt.datatransfer.Clipboard;
+
 /**
  *
  * @author s.nepochatov
@@ -21,6 +23,9 @@ public class OutputFrame extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    
+    //FIXME: fix clipboard support;
+    private Clipboard outClipboard;
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -159,6 +164,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         this.currentString = (String) TextSplit.stringStack.get(0);
         this.stateLabel.setText("Блок " + 1 + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
         this.out.setText(this.currentString);
+        this.outClipboard = new Clipboard(this.currentString);
     }
     
     /**
@@ -183,6 +189,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
             this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
             this.out.setText(this.currentString);
+            this.outClipboard = new Clipboard(this.currentString);
             //Disabling backward button if stack reaching end of range
             if (currentStack == 0) {
                 this.backwardButton.setEnabled(false);
@@ -199,6 +206,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
             this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
             this.out.setText(this.currentString);
+            this.outClipboard = new Clipboard(this.currentString);
             //Disabling forward button if stack reaching end of range
             if (currentStack == TextSplit.stringStack.size() - 1) {
                 this.forwardButton.setEnabled(false);
