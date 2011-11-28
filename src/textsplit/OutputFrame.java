@@ -22,7 +22,7 @@ public class OutputFrame extends javax.swing.JDialog {
         initComponents();
     }
     
-    //FIXME: fix clipboard support;
+    //Clipboard provider object
     private clipboardProvider outClipboard = new clipboardProvider();
 
     /** This method is called from within the constructor to

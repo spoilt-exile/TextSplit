@@ -31,7 +31,7 @@ public class clipboardProvider implements ClipboardOwner {
     public void setClipboardContents(String aString){
         StringSelection stringSelection = new StringSelection(aString);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, this );
+        clipboard.setContents(stringSelection, this);
     }
 
     /**

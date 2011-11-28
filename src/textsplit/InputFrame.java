@@ -55,7 +55,7 @@ public class InputFrame extends javax.swing.JFrame {
             }
         });
 
-        splitMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ЕКОП", "Построчно (dev)" }));
+        splitMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ЕКОП", "Построчно" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,7 +96,7 @@ private void splitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
             TextSplit.ekopSplit();
             break;
         case 1:
-            System.out.println("Построчное разделение не готово.");
+            TextSplit.lineSplit();
     }
 }//GEN-LAST:event_splitButtonMouseClicked
 
