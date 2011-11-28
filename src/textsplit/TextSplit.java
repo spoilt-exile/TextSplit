@@ -5,7 +5,6 @@
  * 
  * TODO: make service header in EKOP separation.
  * TODO: create other split modes.
- * TODO: clipboard integretion (IMPORTANT!).
  */
 
 package textsplit;
