@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Main class
- * @author s.nepochatov
+ * @author Stanislav Nepochatov
  */
 public class TextSplit {
     

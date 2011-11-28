@@ -11,8 +11,8 @@
 package textsplit;
 
 /**
- *
- * @author s.nepochatov
+ * Input window class
+ * @author Stanislav Nepochatov
  */
 public class InputFrame extends javax.swing.JFrame {
 
