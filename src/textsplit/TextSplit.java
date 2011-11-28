@@ -111,7 +111,7 @@ public class TextSplit {
                 
                 if (cpiece < stackPieces.length - 1) {
                     //Call to ekopFindHeader method
-                    ekopFindHeaderCI(cpiece);
+                    ekopFindHeader(cpiece);
                 }
 
                 //Extract string from draft separation array
@@ -180,8 +180,7 @@ public class TextSplit {
     
     /**
      * Find header in EKOP messages
-     * @param currentIndex 
-     * @deprecated since v0.4 alpha1
+     * @param currentIndex
      */
     private static void ekopFindHeader(Integer currentIndex) {
         String currentStr = stackPieces[currentIndex];
@@ -194,6 +193,7 @@ public class TextSplit {
     /**
      * Find header in EKOP messages
      * Case independent method!
+     * TODO: modify method.
      * @param currentIndex 
      */
     private static void ekopFindHeaderCI(Integer currentIndex) {
