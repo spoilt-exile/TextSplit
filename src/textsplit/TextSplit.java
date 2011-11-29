@@ -123,7 +123,7 @@ public class TextSplit {
                     continue;
                 }
                 System.out.println("'Кусок' номер " + cpiece);
-                
+
                 //Checking if result string and current string larger than limit
                 if (rstr.length() + cstr.length() > ekopMaxText) {
                     

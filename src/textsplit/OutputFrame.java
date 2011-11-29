@@ -160,7 +160,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         this.backwardButton.setEnabled(false);
         this.currentStack = 0;
         this.currentString = (String) TextSplit.stringStack.get(0);
-        this.stateLabel.setText("Блок " + 1 + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
+        this.stateLabel.setText("Блок " + 1 + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
         this.out.setText(this.currentString);
         this.outClipboard.setClipboardContents(currentString);
     }
@@ -185,7 +185,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
             this.currentStack--;
             System.out.println("Сдвиг стека " + (currentStack + 2) + ">" + (currentStack + 1));
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
-            this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
+            this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
             this.out.setText(this.currentString);
             this.outClipboard.setClipboardContents(currentString);
             //Disabling backward button if stack reaching end of range
@@ -202,7 +202,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
             this.currentStack++;
             System.out.println("Сдвиг стека " + currentStack + ">" + (currentStack + 1));
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
-            this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + ")");
+            this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
             this.out.setText(this.currentString);
             this.outClipboard.setClipboardContents(currentString);
             //Disabling forward button if stack reaching end of range
