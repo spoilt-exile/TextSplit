@@ -1,11 +1,9 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version v0.4 beta1
+ * version v0.4 RC1
  * 
  * TODO: make service header in EKOP separation.
- * TODO: create other split modes.
- * TODO: unify split functions.
  */
 
 package textsplit;
@@ -22,6 +20,10 @@ public class TextSplit {
      * Maximum length of message
      */
     private static int maxText = 15980;
+    
+    /**
+     * Maximum length of EKOP message
+     */
     private static int ekopMaxText = 15300;
     
     /**
@@ -33,6 +35,11 @@ public class TextSplit {
      * Text separator example string
      */
     private static String textSeparator;
+    
+    /**
+     * EKOP service header
+     */
+    private static String EKOPServiceHeader;
     
     /**
      * ArrayList for store splited string
@@ -100,6 +107,9 @@ public class TextSplit {
         //Begin main execution only if text larger then allowed limit
         if (input.length() > maxText) {
             
+            //Create EKOP service header
+            ekopCreateHeader(input);
+            
             //Draft text separation by using textSeparator expression
             stackPieces = input.split(textSeparator);
             System.out.println("Количество 'кусков': " + stackPieces.length);
@@ -129,7 +139,7 @@ public class TextSplit {
                     
                     //If result string is not empty then it will be added in the stack
                     if (!rstr.isEmpty()) {
-                        stringStack.add(rstr);
+                        ekopAddToStack(rstr);
                         System.out.println("Добавление результирующей строки.");
                         
                         //Assignment result string to current (make sense in next loop)
@@ -137,9 +147,8 @@ public class TextSplit {
                     }
                     
                     //Else current string will be added in the stack
-                    //TODO: add checking procedure.
                     else {
-                        stringStack.add(cstr);
+                        ekopAddToStack(cstr);
                         System.out.println("Добавление текущей строки.");
                     }
                 }
@@ -164,7 +173,7 @@ public class TextSplit {
                 
                 //Last piece will be added automaticly
                 if (cpiece == stackPieces.length - 1) {
-                    stringStack.add(rstr);
+                    ekopAddToStack(rstr);
                     System.out.println("Добавление остаточной строки.");
                 }
             }
@@ -192,17 +201,23 @@ public class TextSplit {
     }
     
     /**
-     * Find header in EKOP messages
-     * Case independent method!
-     * TODO: modify method.
-     * @param currentIndex 
+     * Create automatic header for EKOP messages
      */
-    private static void ekopFindHeaderCI(Integer currentIndex) {
-        String currentStr = stackPieces[currentIndex];
-        String[] currentWords = currentStr.split(" ");
-        if (currentWords.length < 20) {
-            stackPieces[currentIndex + 1] = currentStr + textSeparator + stackPieces[currentIndex + 1];
-            stackPieces[currentIndex] = "";
+    private static void ekopCreateHeader(String inputStr) {
+        String ekopExample = "В ВЫПУСКЕ:";
+        EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
+    }
+    
+    /**
+     * Add string to stack with appending EKOP service header
+     * @param inputStr 
+     */
+    private static void ekopAddToStack(String inputStr) {
+        if (stringStack.isEmpty()) {
+            stringStack.add(inputStr);
+        }
+        else {
+            stringStack.add(EKOPServiceHeader + inputStr);
         }
     }
     
@@ -248,7 +263,6 @@ public class TextSplit {
                     }
                     
                     //Else current string will be added in the stack
-                    //TODO: add checking procedure.
                     else {
                         stringStack.add(cstr);
                         System.out.println("Добавление текущей строки.");
