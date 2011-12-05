@@ -1,9 +1,7 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version v0.4 RC1
- * 
- * TODO: make service header in EKOP separation.
+ * version v0.4
  */
 
 package textsplit;
