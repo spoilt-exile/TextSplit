@@ -55,7 +55,7 @@ public class InputFrame extends javax.swing.JFrame {
             }
         });
 
-        splitMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ЕКОП", "Построчно" }));
+        splitMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ЕКОП (с шапкой)", "ЕКОП (без шапки) / телепрограмма", "Построчно" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,9 +93,12 @@ private void splitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
     TextSplit.FlushStack();
     switch (this.splitMode.getSelectedIndex()) {
         case 0:
-            TextSplit.ekopSplit();
+            TextSplit.ekopSplit(true);
             break;
         case 1:
+            TextSplit.ekopSplit(false);
+            break;
+        case 2:
             TextSplit.lineSplit();
     }
 }//GEN-LAST:event_splitButtonMouseClicked

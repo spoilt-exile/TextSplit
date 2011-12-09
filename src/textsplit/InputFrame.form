@@ -89,9 +89,10 @@
     <Component class="javax.swing.JComboBox" name="splitMode">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="&#x415;&#x41a;&#x41e;&#x41f;"/>
-            <StringItem index="1" value="&#x41f;&#x43e;&#x441;&#x442;&#x440;&#x43e;&#x447;&#x43d;&#x43e;"/>
+          <StringArray count="3">
+            <StringItem index="0" value="&#x415;&#x41a;&#x41e;&#x41f; (&#x441; &#x448;&#x430;&#x43f;&#x43a;&#x43e;&#x439;)"/>
+            <StringItem index="1" value="&#x415;&#x41a;&#x41e;&#x41f; (&#x431;&#x435;&#x437; &#x448;&#x430;&#x43f;&#x43a;&#x438;) / &#x442;&#x435;&#x43b;&#x435;&#x43f;&#x440;&#x43e;&#x433;&#x440;&#x430;&#x43c;&#x43c;&#x430;"/>
+            <StringItem index="2" value="&#x41f;&#x43e;&#x441;&#x442;&#x440;&#x43e;&#x447;&#x43d;&#x43e;"/>
           </StringArray>
         </Property>
       </Properties>

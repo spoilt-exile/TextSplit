@@ -1,7 +1,7 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version v0.4
+ * version v0.4r1
  */
 
 package textsplit;
@@ -17,12 +17,7 @@ public class TextSplit {
     /**
      * Maximum length of message
      */
-    private static int maxText = 15980;
-    
-    /**
-     * Maximum length of EKOP message
-     */
-    private static int ekopMaxText = 15300;
+    private static int maxLength = 15980;
     
     /**
      * System dependent line seporator
@@ -92,8 +87,9 @@ public class TextSplit {
     
     /**
      * Split text method for EKOP messages
+     * @param withHeader append EKOP service header if equals true;
      */
-    public static void ekopSplit() {
+    public static void ekopSplit(Boolean withHeader) {
         
         //Assign text separator
         textSeparator = lineSeparator + lineSeparator;
@@ -102,11 +98,22 @@ public class TextSplit {
         String input = inputApp.textField.getText();
         System.out.println("Получен текст:" + input.length());
         
+        //Assign local max length variable
+        int localMaxLength;
+        if (withHeader) {
+            localMaxLength = 15300;
+        }
+        else {
+            localMaxLength = maxLength;
+        }
+        
         //Begin main execution only if text larger then allowed limit
-        if (input.length() > maxText) {
+        if (input.length() > localMaxLength) {
             
             //Create EKOP service header
-            ekopCreateHeader(input);
+            if (withHeader) {
+                ekopCreateHeader(input);
+            }
             
             //Draft text separation by using textSeparator expression
             stackPieces = input.split(textSeparator);
@@ -133,7 +140,7 @@ public class TextSplit {
                 System.out.println("'Кусок' номер " + cpiece);
 
                 //Checking if result string and current string larger than limit
-                if (rstr.length() + cstr.length() > ekopMaxText) {
+                if (rstr.length() + cstr.length() > localMaxLength) {
                     
                     //If result string is not empty then it will be added in the stack
                     if (!rstr.isEmpty()) {
@@ -188,7 +195,7 @@ public class TextSplit {
     
     /**
      * Find header in EKOP messages
-     * @param currentIndex
+     * @param currentIndex current position in pieces array;
      */
     private static void ekopFindHeader(Integer currentIndex) {
         String currentStr = stackPieces[currentIndex];
@@ -231,8 +238,11 @@ public class TextSplit {
         String input = inputApp.textField.getText();
         System.out.println("Получен текст:" + input.length());
         
+        //Assign local max length variable
+        int localMaxLength = maxLength;
+        
         //Begin main execution only if text larger then allowed limit
-        if (input.length() > maxText) {
+        if (input.length() > localMaxLength) {
             
             //Draft text separation by using textSeparator expression
             stackPieces = input.split(textSeparator);
@@ -249,7 +259,7 @@ public class TextSplit {
                 System.out.println("'Кусок' номер " + cpiece);
                 
                 //Checking if result string and current string larger than limit
-                if (rstr.length() + cstr.length() > maxText) {
+                if (rstr.length() + cstr.length() > localMaxLength) {
                     
                     //If result string is not empty then it will be added in the stack
                     if (!rstr.isEmpty()) {
