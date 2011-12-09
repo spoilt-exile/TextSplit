@@ -144,7 +144,7 @@ public class TextSplit {
                     
                     //If result string is not empty then it will be added in the stack
                     if (!rstr.isEmpty()) {
-                        ekopAddToStack(rstr);
+                        ekopAddToStack(rstr, withHeader);
                         System.out.println("Добавление результирующей строки.");
                         
                         //Assignment result string to current (make sense in next loop)
@@ -153,7 +153,7 @@ public class TextSplit {
                     
                     //Else current string will be added in the stack
                     else {
-                        ekopAddToStack(cstr);
+                        ekopAddToStack(cstr, withHeader);
                         System.out.println("Добавление текущей строки.");
                     }
                 }
@@ -178,7 +178,7 @@ public class TextSplit {
                 
                 //Last piece will be added automaticly
                 if (cpiece == stackPieces.length - 1) {
-                    ekopAddToStack(rstr);
+                    ekopAddToStack(rstr, withHeader);
                     System.out.println("Добавление остаточной строки.");
                 }
             }
@@ -207,21 +207,26 @@ public class TextSplit {
     
     /**
      * Create automatic header for EKOP messages
+     * @param inputStr message string;
      */
     private static void ekopCreateHeader(String inputStr) {
         String ekopExample = "В ВЫПУСКЕ:";
         EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
+        System.out.print("Служебный заголовок ЕКОП создан!");
     }
     
     /**
      * Add string to stack with appending EKOP service header
-     * @param inputStr 
+     * @param inputStr string which will be appended to stack;
+     * @param withHeader append EKOP service header if equals true;
      */
-    private static void ekopAddToStack(String inputStr) {
-        if (stringStack.isEmpty()) {
+    private static void ekopAddToStack(String inputStr, Boolean withHeader) {
+        if (stringStack.isEmpty() || withHeader == false) {
+            System.out.print("Добавлена простая строка.");
             stringStack.add(inputStr);
         }
         else {
+            System.out.print("Добавлена строка с заголовком!");
             stringStack.add(EKOPServiceHeader + inputStr);
         }
     }
@@ -238,11 +243,8 @@ public class TextSplit {
         String input = inputApp.textField.getText();
         System.out.println("Получен текст:" + input.length());
         
-        //Assign local max length variable
-        int localMaxLength = maxLength;
-        
         //Begin main execution only if text larger then allowed limit
-        if (input.length() > localMaxLength) {
+        if (input.length() > maxLength) {
             
             //Draft text separation by using textSeparator expression
             stackPieces = input.split(textSeparator);
@@ -259,7 +261,7 @@ public class TextSplit {
                 System.out.println("'Кусок' номер " + cpiece);
                 
                 //Checking if result string and current string larger than limit
-                if (rstr.length() + cstr.length() > localMaxLength) {
+                if (rstr.length() + cstr.length() > maxLength) {
                     
                     //If result string is not empty then it will be added in the stack
                     if (!rstr.isEmpty()) {
