@@ -1,12 +1,12 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version v0.4r1
+ * version v0.5 beta
  */
 
 package textsplit;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Main class
@@ -15,9 +15,24 @@ import java.util.ArrayList;
 public class TextSplit {
     
     /**
+     * System locale
+     */
+    private static Locale sysLocale = Locale.getDefault();
+    
+    /**
+     * Fallback locale
+     */
+    private static Locale fallLocale = new Locale("en", "US");
+    
+    /**
+     * 
+     */
+    public static ResourceBundle localizator;
+    
+    /**
      * Maximum length of message
      */
-    private static int maxLength = 15980;
+    private static int maxLength = 15000;
     
     /**
      * System dependent line seporator
@@ -47,7 +62,7 @@ public class TextSplit {
     /**
      * Input frame variable
      */
-    private static InputFrame inputApp = new InputFrame();
+    private static InputFrame inputApp;
     
     /**
      * Output frame variable
@@ -59,21 +74,32 @@ public class TextSplit {
      */
     public static void main(String[] args) {
         
+        //Setting localization
+        try {
+            ResourceBundle.clearCache();
+            localizator = ResourceBundle.getBundle("textsplit.LocBundle", sysLocale);
+        }
+        catch (MissingResourceException ex) {
+            localizator = ResourceBundle.getBundle("textsplit.LocBundle", fallLocale);
+            System.out.println("Can't found resource bundle for current locale!");
+        }
+        
         //Making main window visible
+        inputApp = new InputFrame();
         inputApp.setVisible(true);
         
         //Initializate output window
         outApp = new OutputFrame(inputApp, false);
 
         //Debug output
-        System.out.println("Начало работы!");
+        System.out.println(localizator.getString("log_hello"));
     }
     
     /**
      * Flushing stack to new text spliting
      */
     public static void FlushStack() {
-        System.out.println("Отчистка стека!");
+        System.out.println(localizator.getString("log_flushing_stack"));
         
         //Flushing text stack
         stringStack = new ArrayList();
@@ -82,7 +108,7 @@ public class TextSplit {
         outApp.out.setText("");
         outApp.forwardButton.setEnabled(true);
         outApp.backwardButton.setEnabled(true);
-        outApp.stateLabel.setText("ИДЕТ ОБРАБОТКА");
+        outApp.stateLabel.setText(localizator.getString("out_gui_busy_window_title"));
     }
     
     /**
@@ -96,12 +122,12 @@ public class TextSplit {
         
         //Get text from input windoiw
         String input = inputApp.textField.getText();
-        System.out.println("Получен текст:" + input.length());
+        System.out.println(localizator.getString("log_generic_recv") + input.length());
         
         //Assign local max length variable
         int localMaxLength;
         if (withHeader) {
-            localMaxLength = 15300;
+            localMaxLength = 14700; //Fix problem with too large messages
         }
         else {
             localMaxLength = maxLength;
@@ -117,7 +143,7 @@ public class TextSplit {
             
             //Draft text separation by using textSeparator expression
             stackPieces = input.split(textSeparator);
-            System.out.println("Количество 'кусков': " + stackPieces.length);
+            System.out.println(localizator.getString("log_generic_pieces_count") + " " + stackPieces.length);
             
             //Result string declaration
             String rstr = "";
@@ -137,7 +163,7 @@ public class TextSplit {
                 if (cstr.isEmpty()) {
                     continue;
                 }
-                System.out.println("'Кусок' номер " + cpiece);
+                System.out.println(localizator.getString("log_generic_current_piece") + "" + cpiece);
 
                 //Checking if result string and current string larger than limit
                 if (rstr.length() + cstr.length() > localMaxLength) {
@@ -145,7 +171,7 @@ public class TextSplit {
                     //If result string is not empty then it will be added in the stack
                     if (!rstr.isEmpty()) {
                         ekopAddToStack(rstr, withHeader);
-                        System.out.println("Добавление результирующей строки.");
+                        System.out.println(localizator.getString("log_generic_add_res"));
                         
                         //Assignment result string to current (make sense in next loop)
                         rstr = cstr;
@@ -154,7 +180,7 @@ public class TextSplit {
                     //Else current string will be added in the stack
                     else {
                         ekopAddToStack(cstr, withHeader);
-                        System.out.println("Добавление текущей строки.");
+                        System.out.println(localizator.getString("log_generic_add_curr"));
                     }
                 }
                 
@@ -166,26 +192,26 @@ public class TextSplit {
                         
                         //Assignment result string to current (make sense in next loop)
                         rstr = cstr;
-                        System.out.println("Присвоение строки.");
+                        System.out.println(localizator.getString("log_generic_str_assign"));
                     }
                     else {
                         
                         //Append current string with textSeparator to result stirng
                         rstr = rstr + textSeparator + cstr;
-                        System.out.println("Сложение строк.");
+                        System.out.println(localizator.getString("log_generic_str_append"));
                     }
                 }
                 
                 //Last piece will be added automaticly
                 if (cpiece == stackPieces.length - 1) {
                     ekopAddToStack(rstr, withHeader);
-                    System.out.println("Добавление остаточной строки.");
+                    System.out.println(localizator.getString("log_generic_add_rest"));
                 }
             }
             
             //Cheking stack
             if (stringStack.isEmpty()) {
-                System.out.println("Стек пуст!");
+                System.out.println(localizator.getString("log_generic_empty_stack"));
             }
             else {
                 outApp.showStack();
@@ -212,7 +238,7 @@ public class TextSplit {
     private static void ekopCreateHeader(String inputStr) {
         String ekopExample = "В ВЫПУСКЕ:";
         EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
-        System.out.print("Служебный заголовок ЕКОП создан!");
+        System.out.print(localizator.getString("log_generic_empty_stack"));
     }
     
     /**
@@ -222,11 +248,11 @@ public class TextSplit {
      */
     private static void ekopAddToStack(String inputStr, Boolean withHeader) {
         if (stringStack.isEmpty() || withHeader == false) {
-            System.out.print("Добавлена простая строка.");
+            System.out.print(localizator.getString("log_ekop_add_generic_str"));
             stringStack.add(inputStr);
         }
         else {
-            System.out.print("Добавлена строка с заголовком!");
+            System.out.print(localizator.getString("log_ekop_add_header_str"));
             stringStack.add(EKOPServiceHeader + inputStr);
         }
     }
@@ -241,14 +267,14 @@ public class TextSplit {
         
         //Get text from input windoiw
         String input = inputApp.textField.getText();
-        System.out.println("Получен текст:" + input.length());
+        System.out.println(localizator.getString("log_generic_recv") + input.length());
         
         //Begin main execution only if text larger then allowed limit
         if (input.length() > maxLength) {
             
             //Draft text separation by using textSeparator expression
             stackPieces = input.split(textSeparator);
-            System.out.println("Количество 'кусков': " + stackPieces.length);
+            System.out.println(localizator.getString("log_generic_pieces_count") + " " + stackPieces.length);
             
             //Result string declaration
             String rstr = "";
@@ -258,7 +284,7 @@ public class TextSplit {
 
                 //Extract string from draft separation array
                 String cstr = stackPieces[cpiece];
-                System.out.println("'Кусок' номер " + cpiece);
+                System.out.println(localizator.getString("log_generic_current_piece") + "" + cpiece);
                 
                 //Checking if result string and current string larger than limit
                 if (rstr.length() + cstr.length() > maxLength) {
@@ -266,7 +292,7 @@ public class TextSplit {
                     //If result string is not empty then it will be added in the stack
                     if (!rstr.isEmpty()) {
                         stringStack.add(rstr);
-                        System.out.println("Добавление результирующей строки.");
+                        System.out.println(localizator.getString("log_generic_add_res"));
                         
                         //Assignment result string to current (make sense in next loop)
                         rstr = cstr;
@@ -275,7 +301,7 @@ public class TextSplit {
                     //Else current string will be added in the stack
                     else {
                         stringStack.add(cstr);
-                        System.out.println("Добавление текущей строки.");
+                        System.out.println(localizator.getString("log_generic_add_curr"));
                     }
                 }
                 
@@ -287,26 +313,26 @@ public class TextSplit {
                         
                         //Assignment result string to current (make sense in next loop)
                         rstr = cstr;
-                        System.out.println("Присвоение строки.");
+                        System.out.println(localizator.getString("log_generic_str_assign"));
                     }
                     else {
                         
                         //Append current string with textSeparator to result stirng
                         rstr = rstr + textSeparator + cstr;
-                        System.out.println("Сложение строк.");
+                        System.out.println(localizator.getString("log_generic_str_append"));
                     }
                 }
                 
                 //Last piece will be added automaticly
                 if (cpiece == stackPieces.length - 1) {
                     stringStack.add(rstr);
-                    System.out.println("Добавление остаточной строки.");
+                    System.out.println(localizator.getString("log_generic_add_rest"));
                 }
             }
             
             //Cheking stack
             if (stringStack.isEmpty()) {
-                System.out.println("Стек пуст!");
+                System.out.println(localizator.getString("log_generic_empty_stack"));
             }
             else {
                 outApp.showStack();
