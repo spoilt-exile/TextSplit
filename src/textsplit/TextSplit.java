@@ -1,7 +1,7 @@
 /**
  * TextSplit is a service software for Ukrainian National Information Agency:
  * UKRINFORM 2011
- * version v0.5 RC1
+ * version v0.5 RC3
  */
 
 package textsplit;
@@ -20,19 +20,15 @@ public class TextSplit {
     private static Locale sysLocale = Locale.getDefault();
     
     /**
-     * Fallback locale
-     */
-    private static Locale fallLocale = new Locale("en", "US");
-    
-    /**
-     * 
+     * Localization handle object
      */
     public static ResourceBundle localizator;
     
     /**
-     * Maximum length of message
+     * Maximum length of message.
+     * Changed to 13000 in order to fix issue with applying messages
      */
-    private static int maxLength = 15000;
+    private static int maxLength = 13000;
     
     /**
      * System dependent line seporator
@@ -75,14 +71,7 @@ public class TextSplit {
     public static void main(String[] args) {
         
         //Setting localization
-        try {
-            ResourceBundle.clearCache();
-            localizator = ResourceBundle.getBundle("textsplit.LocBundle", sysLocale);
-        }
-        catch (MissingResourceException ex) {
-            localizator = ResourceBundle.getBundle("textsplit.LocBundle", fallLocale);
-            System.out.println("Can't found resource bundle for current locale!");
-        }
+        localizator = ResourceBundle.getBundle("textsplit.LocBundle", sysLocale);
         
         //Making main window visible
         inputApp = new InputFrame();
@@ -127,7 +116,7 @@ public class TextSplit {
         //Assign local max length variable
         int localMaxLength;
         if (withHeader) {
-            localMaxLength = 14700; //Fix problem with too large messages
+            localMaxLength = 12900; //Fix problem with too large messages
         }
         else {
             localMaxLength = maxLength;
