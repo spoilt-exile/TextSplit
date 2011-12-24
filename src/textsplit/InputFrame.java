@@ -15,7 +15,7 @@ package textsplit;
  * @author Stanislav Nepochatov
  */
 public class InputFrame extends javax.swing.JFrame {
-
+    
     /** Creates new form InpitFrame */
     public InputFrame() {
         initComponents();
@@ -37,25 +37,26 @@ public class InputFrame extends javax.swing.JFrame {
         splitMode = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Разделитель текста");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("textsplit/LocBundle"); // NOI18N
+        setTitle(bundle.getString("input_gui_window_title")); // NOI18N
 
         jScrollPane1.setViewportView(textField);
 
-        splitButton.setText("Разделить!");
+        splitButton.setText(bundle.getString("input_gui_split")); // NOI18N
         splitButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 splitButtonMouseClicked(evt);
             }
         });
 
-        eraseButton.setText("Стереть");
+        eraseButton.setText(bundle.getString("input_gui_fluch")); // NOI18N
         eraseButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 eraseButtonMouseClicked(evt);
             }
         });
 
-        splitMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ЕКОП (с шапкой)", "ЕКОП (без шапки) / телепрограмма", "Построчно" }));
+        splitMode.setModel(new javax.swing.DefaultComboBoxModel(TextSplit.localizator.getString("input_box").split("#")));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,7 +65,7 @@ public class InputFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(splitButton)
                         .addGap(18, 18, 18)

@@ -41,20 +41,22 @@ public class OutputFrame extends javax.swing.JDialog {
         stateLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("textsplit/LocBundle"); // NOI18N
+        setTitle(bundle.getString("out_gui_window_title")); // NOI18N
 
         jScrollPane1.setAutoscrolls(true);
 
         out.setEditable(false);
         jScrollPane1.setViewportView(out);
 
-        forwardButton.setText("Вперед >>");
+        forwardButton.setText(bundle.getString("out_gui_forward_button")); // NOI18N
         forwardButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 forwardButtonMouseClicked(evt);
             }
         });
 
-        backwardButton.setText("<< Назад");
+        backwardButton.setText(bundle.getString("out_gui_backward_button")); // NOI18N
         backwardButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 backwardButtonMouseClicked(evt);
@@ -71,7 +73,7 @@ public class OutputFrame extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backwardButton)
                         .addGap(40, 40, 40)
@@ -160,7 +162,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         this.backwardButton.setEnabled(false);
         this.currentStack = 0;
         this.currentString = (String) TextSplit.stringStack.get(0);
-        this.stateLabel.setText("Блок " + 1 + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
+        this.stateLabel.setText(TextSplit.localizator.getString("block") + " " + 1 + " " + TextSplit.localizator.getString("from") + " " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
         this.out.setText(this.currentString);
         this.outClipboard.setClipboardContents(currentString);
     }
@@ -183,9 +185,9 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         //Moving stack backward
         if (mode == 0) {
             this.currentStack--;
-            System.out.println("Сдвиг стека " + (currentStack + 2) + ">" + (currentStack + 1));
+            System.out.println(TextSplit.localizator.getString("moving_stack") + " " + (currentStack + 2) + ">" + (currentStack + 1));
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
-            this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
+            this.stateLabel.setText(TextSplit.localizator.getString("block") + " " + (currentStack + 1) + " " + TextSplit.localizator.getString("from") + " " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
             this.out.setText(this.currentString);
             this.outClipboard.setClipboardContents(currentString);
             //Disabling backward button if stack reaching end of range
@@ -200,9 +202,9 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         //Moving stack forward
         else {
             this.currentStack++;
-            System.out.println("Сдвиг стека " + currentStack + ">" + (currentStack + 1));
+            System.out.println(TextSplit.localizator.getString("moving_stack") + " " + currentStack + ">" + (currentStack + 1));
             this.currentString = (String) TextSplit.stringStack.get(currentStack);
-            this.stateLabel.setText("Блок " + (currentStack + 1) + " из " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
+            this.stateLabel.setText(TextSplit.localizator.getString("block") + " " + (currentStack + 1) + " " + TextSplit.localizator.getString("from") + " " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
             this.out.setText(this.currentString);
             this.outClipboard.setClipboardContents(currentString);
             //Disabling forward button if stack reaching end of range
