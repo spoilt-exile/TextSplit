@@ -2,6 +2,7 @@
  * TextSplit is a service software for National News Agency of Ukraine:
  * UKRINFORM 2011
  * version v0.6 alpha1
+ * TODO: add case independent EKOP header search method;
  */
 
 package textsplit;
@@ -123,6 +124,7 @@ public class TextSplit {
         }
         
         //Begin main execution only if text larger then allowed limit
+        //TODO: add message if length of message less than localMaxLength;
         if (input.length() > localMaxLength) {
             
             //Create EKOP service header
@@ -226,6 +228,7 @@ public class TextSplit {
      */
     private static void ekopCreateHeader(String inputStr) {
         String ekopExample = "В ВЫПУСКЕ:";
+        //TODO: add handling none EKOP headers;
         EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
         System.out.print(localizator.getString("log_generic_empty_stack"));
     }
@@ -259,6 +262,7 @@ public class TextSplit {
         System.out.println(localizator.getString("log_generic_recv") + input.length());
         
         //Begin main execution only if text larger then allowed limit
+        //TODO: add message if length of message less than localMaxLength;
         if (input.length() > maxLength) {
             
             //Draft text separation by using textSeparator expression
