@@ -1,13 +1,15 @@
 /**
  * TextSplit is a service software for National News Agency of Ukraine:
  * UKRINFORM 2011
- * version v0.6 alpha1
+ * version v0.6 alpha2
  * TODO: add case independent EKOP header search method;
  */
 
 package textsplit;
 
 import java.util.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * Main class
@@ -124,7 +126,6 @@ public class TextSplit {
         }
         
         //Begin main execution only if text larger then allowed limit
-        //TODO: add message if length of message less than localMaxLength;
         if (input.length() > localMaxLength) {
             
             //Create EKOP service header
@@ -208,6 +209,10 @@ public class TextSplit {
                 outApp.showStack();
             }
         }
+        else {
+            TextSplit.warningMessage(localizator.getString("warning_not_limit1") + "\n" + localizator.getString("warning_count") + input.length() + ";");
+            System.out.println(localizator.getString("log_cancel"));
+        }
     }
     
     /**
@@ -262,7 +267,6 @@ public class TextSplit {
         System.out.println(localizator.getString("log_generic_recv") + input.length());
         
         //Begin main execution only if text larger then allowed limit
-        //TODO: add message if length of message less than localMaxLength;
         if (input.length() > maxLength) {
             
             //Draft text separation by using textSeparator expression
@@ -331,5 +335,18 @@ public class TextSplit {
                 outApp.showStack();
             }
         }
+        else {
+            TextSplit.warningMessage(localizator.getString("warning_not_limit1") + "\n" + localizator.getString("warning_count") + input.length() + ";");
+            System.out.println(localizator.getString("log_cancel"));
+        }
+    }
+    
+    /**
+     * Show graphical warning message
+     * @param Message text of warning message
+     */
+    public static void warningMessage (String Message) {
+        final JPanel panel = new JPanel();
+        JOptionPane.showMessageDialog(panel, Message, localizator.getString("warning"), JOptionPane.WARNING_MESSAGE);
     }
 }
