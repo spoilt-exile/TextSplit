@@ -1,8 +1,7 @@
 /**
  * TextSplit is a service software for National News Agency of Ukraine:
  * UKRINFORM 2011
- * version v0.6 alpha2
- * TODO: add case independent EKOP header search method;
+ * version v0.6 beta1
  */
 
 package textsplit;
@@ -47,6 +46,11 @@ public class TextSplit {
      * EKOP service header
      */
     private static String EKOPServiceHeader;
+    
+    /**
+     * 
+     */
+    //private static Boolean EKOPHeaderFlag = false;
     
     /**
      * ArrayList for store splited string
@@ -112,6 +116,8 @@ public class TextSplit {
         //Assign text separator
         textSeparator = lineSeparator + lineSeparator;
         
+        Integer headLimit = 200;
+        
         //Get text from input windoiw
         String input = inputApp.textField.getText();
         System.out.println(localizator.getString("log_generic_recv") + input.length());
@@ -143,10 +149,10 @@ public class TextSplit {
             //Main cycle
             for (int cpiece = 0; cpiece < stackPieces.length; cpiece++) {
                 
-                if (cpiece < stackPieces.length - 1) {
+                /**if (cpiece < stackPieces.length - 1) {
                     //Call to ekopFindHeader method
-                    ekopFindHeader(cpiece);
-                }
+                    ekopFindHeaderCI(cpiece);
+                }**/
 
                 //Extract string from draft separation array
                 String cstr = stackPieces[cpiece];
@@ -179,8 +185,9 @@ public class TextSplit {
                 //Result string smaller than limit
                 else {
                     
+                    /**
                     //Result string is empty
-                    if (rstr.equals("")) {
+                    if (rstr.isEmpty()) {
                         
                         //Assignment result string to current (make sense in next loop)
                         rstr = cstr;
@@ -189,6 +196,28 @@ public class TextSplit {
                     else {
                         
                         //Append current string with textSeparator to result stirng
+                        rstr = rstr + textSeparator + cstr;
+                        System.out.println(localizator.getString("log_generic_str_append"));
+                    }
+                    **/
+                    
+                    if (cstr.length() < headLimit) {
+                        if (rstr.length() + cstr.length() + stackPieces[cpiece + 1].length() > localMaxLength) {
+                            System.out.println("ДОБАВЛЕНА СТРОКА СО СДВИГОМ!" + rstr.length());
+                            ekopAddToStack(rstr, withHeader);
+                            rstr = cstr;
+                        }
+                        else {
+                            if (rstr.isEmpty()) {
+                                rstr = cstr;
+                            }
+                            else {
+                                rstr = rstr + textSeparator + cstr;
+                            }
+                            System.out.println(localizator.getString("log_generic_str_append"));
+                        }
+                    }
+                    else {
                         rstr = rstr + textSeparator + cstr;
                         System.out.println(localizator.getString("log_generic_str_append"));
                     }
@@ -218,6 +247,7 @@ public class TextSplit {
     /**
      * Find header in EKOP messages
      * @param currentIndex current position in pieces array;
+     * @deprecated 
      */
     private static void ekopFindHeader(Integer currentIndex) {
         String currentStr = stackPieces[currentIndex];
@@ -228,14 +258,41 @@ public class TextSplit {
     }
     
     /**
+     * Find header in EKOP messages (case independent version)
+     * @param currentIndex current position in pieces array;
+     * @since v0.6 beta1
+     */
+    /**private static void ekopFindHeaderCI(Integer currentIndex) {
+        String currentStr = stackPieces[currentIndex].trim();
+        String[] currentStack = currentStr.split(lineSeparator);
+        if (currentStack.length < 2 && EKOPHeaderFlag == true) {
+            stackPieces[currentIndex + 1] = currentStr + textSeparator + stackPieces[currentIndex + 1];
+            stackPieces[currentIndex] = "";
+        }
+        else {
+            if (stackPieces[currentIndex + 1].length() > 250) {
+                EKOPHeaderFlag = true;
+            }
+            else {
+                EKOPHeaderFlag = false;
+            }
+        }
+    }**/
+    
+    /**
      * Create automatic header for EKOP messages
      * @param inputStr message string;
      */
     private static void ekopCreateHeader(String inputStr) {
         String ekopExample = "В ВЫПУСКЕ:";
-        //TODO: add handling none EKOP headers;
-        EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
-        System.out.print(localizator.getString("log_generic_empty_stack"));
+        if (inputStr.indexOf(ekopExample) != -1) {
+            EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
+            System.out.println(localizator.getString("log_ekop_sheader_created") + "[" + EKOPServiceHeader.length() + "]");
+        }
+        else {
+            EKOPServiceHeader = "";
+            System.out.println(localizator.getString("log_ekop_header_not_found"));
+        }
     }
     
     /**
@@ -245,11 +302,11 @@ public class TextSplit {
      */
     private static void ekopAddToStack(String inputStr, Boolean withHeader) {
         if (stringStack.isEmpty() || withHeader == false) {
-            System.out.print(localizator.getString("log_ekop_add_generic_str"));
+            System.out.println(localizator.getString("log_ekop_add_generic_str"));
             stringStack.add(inputStr);
         }
         else {
-            System.out.print(localizator.getString("log_ekop_add_header_str"));
+            System.out.println(localizator.getString("log_ekop_add_header_str"));
             stringStack.add(EKOPServiceHeader + inputStr);
         }
     }
