@@ -1,7 +1,7 @@
 /**
  * TextSplit is a service software for National News Agency of Ukraine:
  * UKRINFORM 2011
- * version v0.6 beta1
+ * version v0.6 RC1
  */
 
 package textsplit;
@@ -201,7 +201,7 @@ public class TextSplit {
                     }
                     **/
                     
-                    if (cstr.length() < headLimit) {
+                    if (cstr.length() < headLimit && cpiece != stackPieces.length - 1) {
                         if (rstr.length() + cstr.length() + stackPieces[cpiece + 1].length() > localMaxLength) {
                             System.out.println("ДОБАВЛЕНА СТРОКА СО СДВИГОМ!" + rstr.length());
                             ekopAddToStack(rstr, withHeader);

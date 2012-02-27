@@ -20,6 +20,9 @@ public class InputFrame extends javax.swing.JFrame {
     public InputFrame() {
         initComponents();
     }
+    
+    //Clipboard provider object
+    private clipboardProvider outClipboard = new clipboardProvider();
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -35,6 +38,7 @@ public class InputFrame extends javax.swing.JFrame {
         splitButton = new javax.swing.JButton();
         eraseButton = new javax.swing.JButton();
         splitMode = new javax.swing.JComboBox();
+        pasteBut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("textsplit/LocBundle"); // NOI18N
@@ -58,6 +62,13 @@ public class InputFrame extends javax.swing.JFrame {
 
         splitMode.setModel(new javax.swing.DefaultComboBoxModel(TextSplit.localizator.getString("input_box").split("#")));
 
+        pasteBut.setText(bundle.getString("input_gui_paste")); // NOI18N
+        pasteBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasteButActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,6 +79,8 @@ public class InputFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(splitButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(pasteBut)
                         .addGap(18, 18, 18)
                         .addComponent(eraseButton)
                         .addGap(18, 18, 18)
@@ -82,8 +95,9 @@ public class InputFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(splitButton)
+                    .addComponent(splitMode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(eraseButton)
-                    .addComponent(splitMode, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pasteBut))
                 .addContainerGap())
         );
 
@@ -107,6 +121,10 @@ private void splitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
     private void eraseButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eraseButtonMouseClicked
         this.textField.setText("");
     }//GEN-LAST:event_eraseButtonMouseClicked
+
+    private void pasteButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteButActionPerformed
+        this.textField.setText(this.outClipboard.getClipboardContents());
+    }//GEN-LAST:event_pasteButActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,6 +164,7 @@ private void splitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton eraseButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton pasteBut;
     private javax.swing.JButton splitButton;
     private javax.swing.JComboBox splitMode;
     public javax.swing.JTextPane textField;
