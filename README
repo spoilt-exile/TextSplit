@@ -1,0 +1,98 @@
+TextSplit readme
+
+TextSplit is a service application which developed in National News Agency of Ukraine 
+(Ukrinform) for splitting large texts for further release in internal information system. 
+Source code of this application is distributing under terms of GNU GPLv2 license 
+(see LICENSE file).
+
+
+CHANGELOG
+==========================================================================================
+TextSplit v0.1 (23.11.11)
+
+Changes:
+ + main concept implemented;
+==========================================================================================
+TextSplit v0.2 (23.11.11)
+
+Changes:
+ + header added;
+ * comments updated;
+==========================================================================================
+TextSplit v0.3 (24.11.11)
+    
+Changes:
+ * production release;
+ * optimization for EKOP messages;
+ * method SplitText renamed as ekopSplit;
+ + header detection method added (ekopFindHeader);
+    
+Fixes:
+ X SplitText method used regular string expression instead of textSeparator variable;
+==========================================================================================
+TextSplit v0.3r1 (25.11.11)
+    
+Changes:
+ + TODO's added;
+ * comments modified;
+    
+Fixes:
+ X buttons in outputFrame checks their activity before call moveStack method;
+==========================================================================================
+TextSplit v0.4 (05.12.11)
+    
+Changes:
+ + complete clipboard support;
+ + lineSplit method added;
+ + local varialbe ekopMaxText for ekopSplit added;
+ + byte indication added;
+ + EKOP service header in blocks added;
+ * some public variables and methods was changed to private;
+==========================================================================================
+TextSplit v0.4r1 (09.12.11)
+    
+Changes:
+ + add new mode for ekopSplit();
+ * ekopSplit now require boolean argument;
+ - ekopMaxText variable was deleted;
+    
+Fixes:
+ X ekopSplit() method was fixed in order to get correct result with TV program;
+==========================================================================================
+TextSplit v0.4r2 (09.12.11)
+    
+Fixes:
+ X ekopAddToStack() fixed for non-header mode;
+==========================================================================================
+TextSplit v0.5 (24.12.11)
+    
+Changes:
+ + localization sub-system added (uk, en and ru);
+    
+Fixes:
+ X fallback localization fixed;
+ X fixes for russian localization;
+ X fixes for applyeing messages in ASOP (testing);
+==========================================================================================
+TextSplit v0.6 (12.03.12)
+
+Changes:
+ + warning message will appear if text is smaller then limit;
+ + add header detection in TextSplit.ekopSplit method;
+ + added Paste button;
+ * TextSplit.ekopFindHeader method was marked as deprecated;
+ * TextSplit.ekopFindHeaderCI method was commented, will be deleted soon;
+ * some changes in localization resources;
+ * some preparation for release;
+
+Fixes:
+ X fixes in UI;
+ X fixes in localization;
+ X false log messages fixed;
+ X fixed program fault with some messages [TextSplit.java:204];
+==========================================================================================
+
+
+COPYRIGHT
+
+© Ukrinform 2011-2012.

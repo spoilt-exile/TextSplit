@@ -1,3 +1,9 @@
+/*
+ * This code is distributed under terms of GNU GPLv2.
+ * *See LICENSE file.
+ * ©UKRINFORM 2011-2012
+ */
+
 package textsplit;
 
 import java.awt.datatransfer.Clipboard;

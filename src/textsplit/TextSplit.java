@@ -1,12 +1,14 @@
-/**
- * TextSplit is a service software for National News Agency of Ukraine:
- * UKRINFORM 2011
- * version v0.5
+/*
+ * This code is distributed under terms of GNU GPLv2.
+ * *See LICENSE file.
+ * ©UKRINFORM 2011-2012
  */
 
 package textsplit;
 
 import java.util.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * Main class
@@ -44,6 +46,11 @@ public class TextSplit {
      * EKOP service header
      */
     private static String EKOPServiceHeader;
+    
+    /**
+     * 
+     */
+    //private static Boolean EKOPHeaderFlag = false;
     
     /**
      * ArrayList for store splited string
@@ -109,6 +116,8 @@ public class TextSplit {
         //Assign text separator
         textSeparator = lineSeparator + lineSeparator;
         
+        Integer headLimit = 200;
+        
         //Get text from input windoiw
         String input = inputApp.textField.getText();
         System.out.println(localizator.getString("log_generic_recv") + input.length());
@@ -140,10 +149,10 @@ public class TextSplit {
             //Main cycle
             for (int cpiece = 0; cpiece < stackPieces.length; cpiece++) {
                 
-                if (cpiece < stackPieces.length - 1) {
+                /**if (cpiece < stackPieces.length - 1) {
                     //Call to ekopFindHeader method
-                    ekopFindHeader(cpiece);
-                }
+                    ekopFindHeaderCI(cpiece);
+                }**/
 
                 //Extract string from draft separation array
                 String cstr = stackPieces[cpiece];
@@ -176,8 +185,9 @@ public class TextSplit {
                 //Result string smaller than limit
                 else {
                     
+                    /**
                     //Result string is empty
-                    if (rstr.equals("")) {
+                    if (rstr.isEmpty()) {
                         
                         //Assignment result string to current (make sense in next loop)
                         rstr = cstr;
@@ -186,6 +196,28 @@ public class TextSplit {
                     else {
                         
                         //Append current string with textSeparator to result stirng
+                        rstr = rstr + textSeparator + cstr;
+                        System.out.println(localizator.getString("log_generic_str_append"));
+                    }
+                    **/
+                    
+                    if (cstr.length() < headLimit && cpiece != stackPieces.length - 1) {
+                        if (rstr.length() + cstr.length() + stackPieces[cpiece + 1].length() > localMaxLength) {
+                            System.out.println("ДОБАВЛЕНА СТРОКА СО СДВИГОМ!" + rstr.length());
+                            ekopAddToStack(rstr, withHeader);
+                            rstr = cstr;
+                        }
+                        else {
+                            if (rstr.isEmpty()) {
+                                rstr = cstr;
+                            }
+                            else {
+                                rstr = rstr + textSeparator + cstr;
+                            }
+                            System.out.println(localizator.getString("log_generic_str_append"));
+                        }
+                    }
+                    else {
                         rstr = rstr + textSeparator + cstr;
                         System.out.println(localizator.getString("log_generic_str_append"));
                     }
@@ -206,11 +238,16 @@ public class TextSplit {
                 outApp.showStack();
             }
         }
+        else {
+            TextSplit.warningMessage(localizator.getString("warning_not_limit1") + "\n" + localizator.getString("warning_count") + input.length() + ";");
+            System.out.println(localizator.getString("log_cancel"));
+        }
     }
     
     /**
      * Find header in EKOP messages
      * @param currentIndex current position in pieces array;
+     * @deprecated 
      */
     private static void ekopFindHeader(Integer currentIndex) {
         String currentStr = stackPieces[currentIndex];
@@ -221,6 +258,28 @@ public class TextSplit {
     }
     
     /**
+     * Find header in EKOP messages (case independent version)
+     * @param currentIndex current position in pieces array;
+     * @since v0.6 beta1
+     */
+    /**private static void ekopFindHeaderCI(Integer currentIndex) {
+        String currentStr = stackPieces[currentIndex].trim();
+        String[] currentStack = currentStr.split(lineSeparator);
+        if (currentStack.length < 2 && EKOPHeaderFlag == true) {
+            stackPieces[currentIndex + 1] = currentStr + textSeparator + stackPieces[currentIndex + 1];
+            stackPieces[currentIndex] = "";
+        }
+        else {
+            if (stackPieces[currentIndex + 1].length() > 250) {
+                EKOPHeaderFlag = true;
+            }
+            else {
+                EKOPHeaderFlag = false;
+            }
+        }
+    }**/
+    
+    /**
      * Create automatic header for EKOP messages
      * @param inputStr message string;
      */
@@ -228,6 +287,14 @@ public class TextSplit {
         String ekopExample = "В ВЫПУСКЕ:";
         EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
         System.out.print(localizator.getString("log_generic_empty_stack"));
+        if (inputStr.indexOf(ekopExample) != -1) {
+            EKOPServiceHeader = inputStr.split(ekopExample)[0] + ekopExample + textSeparator;
+            System.out.println(localizator.getString("log_ekop_sheader_created") + "[" + EKOPServiceHeader.length() + "]");
+        }
+        else {
+            EKOPServiceHeader = "";
+            System.out.println(localizator.getString("log_ekop_header_not_found"));
+        }
     }
     
     /**
@@ -327,5 +394,18 @@ public class TextSplit {
                 outApp.showStack();
             }
         }
+        else {
+            TextSplit.warningMessage(localizator.getString("warning_not_limit1") + "\n" + localizator.getString("warning_count") + input.length() + ";");
+            System.out.println(localizator.getString("log_cancel"));
+        }
+    }
+    
+    /**
+     * Show graphical warning message
+     * @param Message text of warning message
+     */
+    public static void warningMessage (String Message) {
+        final JPanel panel = new JPanel();
+        JOptionPane.showMessageDialog(panel, Message, localizator.getString("warning"), JOptionPane.WARNING_MESSAGE);
     }
 }

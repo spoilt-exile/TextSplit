@@ -1,13 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This code is distributed under terms of GNU GPLv2.
+ * *See LICENSE file.
+ * ©UKRINFORM 2011-2012
  */
 
-/*
- * OutputFrame.java
- *
- * Created on 23.11.2011, 10:09:28
- */
 package textsplit;
 
 /**
@@ -165,6 +161,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
         this.stateLabel.setText(TextSplit.localizator.getString("block") + " " + 1 + " " + TextSplit.localizator.getString("from") + " " + TextSplit.stringStack.size() + " (" + this.currentString.length() + "." + this.currentString.getBytes().length + ")");
         this.out.setText(this.currentString);
         this.outClipboard.setClipboardContents(currentString);
+        this.out.setCaretPosition(0);
     }
     
     /**
@@ -216,6 +213,7 @@ private void forwardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIR
                 this.backwardButton.setEnabled(true);
             }
         }
+        this.out.setCaretPosition(0);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
