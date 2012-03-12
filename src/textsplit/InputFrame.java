@@ -1,13 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This code is distributed under terms of GNU GPLv2.
+ * *See LICENSE file.
+ * ©UKRINFORM 2011-2012
  */
 
-/*
- * InpitFrame.java
- *
- * Created on 23.11.2011, 9:45:06
- */
 package textsplit;
 
 /**

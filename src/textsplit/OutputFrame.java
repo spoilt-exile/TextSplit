@@ -1,13 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * This code is distributed under terms of GNU GPLv2.
+ * *See LICENSE file.
+ * ©UKRINFORM 2011-2012
  */
 
-/*
- * OutputFrame.java
- *
- * Created on 23.11.2011, 10:09:28
- */
 package textsplit;
 
 /**

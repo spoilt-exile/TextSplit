@@ -1,7 +1,7 @@
-/**
- * TextSplit is a service software for National News Agency of Ukraine:
- * UKRINFORM 2011
- * version v0.6 RC1
+/*
+ * This code is distributed under terms of GNU GPLv2.
+ * *See LICENSE file.
+ * ©UKRINFORM 2011-2012
  */
 
 package textsplit;
