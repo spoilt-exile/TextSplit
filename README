@@ -91,6 +91,12 @@ Fixes:
  X false log messages fixed;
  X fixed program fault with some messages [TextSplit.java:204];
 ==========================================================================================
+TextSplit v0.6r1 (13.05.12)
+
+Fixes:
+ X turn to use unix line separator while JRE return
+   wrong separator on Windows;
+==========================================================================================
 
 
 COPYRIGHT

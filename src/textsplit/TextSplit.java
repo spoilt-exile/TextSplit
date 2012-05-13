@@ -35,7 +35,7 @@ public class TextSplit {
     /**
      * System dependent line seporator
      */
-    private static String lineSeparator = System.getProperty("line.separator");
+    private static String lineSeparator = "\n";//System.getProperty("line.separator");
     
     /**
      * Text separator example string
