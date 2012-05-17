@@ -97,6 +97,11 @@ Fixes:
  X turn to use unix line separator while JRE return
    wrong separator on Windows;
 ==========================================================================================
+TextSplit v0.6r2 (17.05.12)
+
+Fixes:
+X fix error with line separator in Windows, now program can define separator by itself;
+==========================================================================================
 
 
 COPYRIGHT

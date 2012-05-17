@@ -6,7 +6,9 @@
 
 package textsplit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -113,8 +115,10 @@ public class TextSplit {
      */
     public static void ekopSplit(Boolean withHeader) {
         
+        String localLineSeparator = getLineSeparator(inputApp.textField.getText());
+        
         //Assign text separator
-        textSeparator = lineSeparator + lineSeparator;
+        textSeparator = localLineSeparator + localLineSeparator;
         
         Integer headLimit = 200;
         
@@ -319,7 +323,7 @@ public class TextSplit {
     public static void lineSplit() {
         
         //Assign text separator
-        textSeparator = lineSeparator;
+        textSeparator = getLineSeparator(inputApp.textField.getText());;
         
         //Get text from input windoiw
         String input = inputApp.textField.getText();
@@ -407,5 +411,18 @@ public class TextSplit {
     public static void warningMessage (String Message) {
         final JPanel panel = new JPanel();
         JOptionPane.showMessageDialog(panel, Message, localizator.getString("warning"), JOptionPane.WARNING_MESSAGE);
+    }
+    
+    /**
+     * Get line separator which been used in given string
+     * @param givenStr text example
+     * @return line separator value for splitting
+     */
+    public static String getLineSeparator(String givenStr) {
+        if (givenStr.indexOf("\r\n") == -1) {
+            return "\n";
+        } else {
+            return "\r\n";
+        }
     }
 }
